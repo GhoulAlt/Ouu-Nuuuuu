@@ -1,0 +1,28 @@
+env: # Environment variables to pass to all tasks
+    CIRRUS_CLONE_DEPTH: 1 # No need to clone with the whole history
+    CIRRUS_WORKING_DIR: "/tmp/ci" # Where to clone the aosp-builder repo
+
+# store our secrets here
+    github_token: "ENCRYPTED[ef6269ef7174151a6aaed32f7967cd38579cea75cd8c0f19f754b81d3ad4396777ce2a2c4fdc5f99fa3fcba14e62f194]"
+    bot_api: "ENCRYPTED[fcb8db4c289783e3c805f564a14235637653cc56a77c1e3bc59e9590a5d1973238b0c290c7788bd2452d434c5d340cca]"
+    chat_id: "ENCRYPTED[250205ba46165eb0da2a6a7da8055e10f47f9072b8c4cea65b558cb711d74a0f07aa44d425f16bf89844b9111f5eb8cd]"
+    drive_conf: "ENCRYPTED[707f14e50a732deeb284e368c0b8996a2a801724ff986aa6afb4a747dd1bb573e36a4385a677448660d58b15e932963b]"
+    ghost: "ENCRYPTED[e0ce08a2e37822f18221b96ff260888cc350f08ef917b998079b296ee25daf63c5fd9331c5f898a792cb0e2ea3ee3eb1]"
+    gh_username: "ENCRYPTED[59173a78b15ea51177a36df914e760df7c998e2fc87fc3488d98be358eee5c63357f8efc297a9c2e457a4fb87dd72050]"
+    gh_mail: "ENCRYPTED[0620e2cc24bbbcf9fd0954bb9e4bd5218a014d612de36077526126a2dc96e6185adab56ed005415f8a47409b05be0bc1]"
+
+task:
+    name: IDK
+    timeout_in: 260m
+    container:
+      image: aarunalr/aosp-build
+      cpu: 8
+      memory: 32G
+    down_ccache_background_script: # To download ccache in background
+      - bash down_ccache # Ccache download script
+    sync_script:
+      - bash sync
+    build_script:
+      - bash build
+    up_ccache_script: # Upload ccache to cloud foreground
+      - bash up_ccache # Ccache uploading script
